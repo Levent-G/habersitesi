@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography,Box,Grid,Card,CardActions,CardContent,CardMedia,Button } from '@mui/material'
+import { Typography,Box,Grid,Card,CardContent,CardMedia} from '@mui/material'
 import { createTheme } from '@mui/material/styles';
 
 
@@ -19,7 +19,7 @@ const HaberlerComp = (props) => {
         <Box sx={{ flexGrow: 1 }} className=" p-5 ">
           <div className="flex items-center">
             <div className="flex-grow border-t-8 border-[#42A5F5]"></div>
-            <Typography theme={theme} variant="h5" className="mx-4 p-5">
+            <Typography theme={theme} variant="h5" className="mx-4 p-5 uppercase">
               HABERLER -{props.countryName}
             </Typography>
             <div className="flex-grow border-t-8 border-l-8 border-[#F57F17]"></div>
@@ -29,9 +29,10 @@ const HaberlerComp = (props) => {
               ? props.data?.articles.map((haber, index) => (
                   <>
                     <Grid item xs={12} md={6} className="mb-24">
+                      <a href={ haber?.url} className="hover:bg-black">
                       <Card
                         sx={{ maxWidth: 545, borderRadius: "16px" }}
-                        className="p-5"
+                        className="p-5 hover:opacity-80"
                       >
                         <CardMedia
                           sx={{ height: 240, borderRadius: "16px 16px 0 0" }}
@@ -53,16 +54,7 @@ const HaberlerComp = (props) => {
                            
                           </Typography>
                         </CardContent>
-                        <CardActions>
-                          <Button
-                            size="small"
-                            theme={theme}
-                            className="float-right "
-                            
-                          >
-                            {haber?.url}
-                          </Button>
-                        </CardActions>
+                      
 
                         <Typography
                           className="float-left text-[#F57F17] "
@@ -77,6 +69,8 @@ const HaberlerComp = (props) => {
                            {haber?.source.name}
                         </Typography>
                       </Card>
+                      </a>
+                      
                     </Grid>
                   </>
                 ))

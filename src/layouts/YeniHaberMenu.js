@@ -26,8 +26,8 @@ const YeniHaberMenu = (props) => {
   
   return (
     <div className="bg-white ">
-      <Typography theme={theme} className="float-left p-2 font-extrabold">
-        Son Gelişmeler:{" "}
+      <Typography theme={theme} className="float-left p-2 font-extrabold uppercase">
+        Son Gelişmeler:-{props.countryName}
       </Typography>
       <Slider {...settings}>
         {props.data?.articles

@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <div>
-      <YeniHaberMenu data={state.haberData}/>
+      <YeniHaberMenu data={state.haberData} countryName={countryName}/>
       <Container className="flex justify-center items-center ">
         <UlkeSecimiComp
           setCountryName={setCountryName}
