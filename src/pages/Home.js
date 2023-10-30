@@ -4,6 +4,7 @@ import UlkeSecimiComp from '../components/UlkeSecimiComp'
 import HaberlerComp from '../components/HaberlerComp'
 import { useSelector, useDispatch } from "react-redux";
 import { HaberAction } from "../redux/actions/HaberAction";
+import YeniHaberMenu from "../layouts/YeniHaberMenu";
 const Home = () => {
   const state = useSelector((state) => state.haberData);
   const dispatch = useDispatch();
@@ -16,14 +17,16 @@ const Home = () => {
 
   return (
     <div>
-        <Container className='flex justify-center items-center '>
-         <UlkeSecimiComp setCountryName={setCountryName} countryName={countryName}/>
-         <HaberlerComp data={state.haberData} countryName={countryName} /> 
-     
-    
-        </Container>
+      <YeniHaberMenu data={state.haberData}/>
+      <Container className="flex justify-center items-center ">
+        <UlkeSecimiComp
+          setCountryName={setCountryName}
+          countryName={countryName}
+        />
+        <HaberlerComp data={state.haberData} countryName={countryName} />
+      </Container>
     </div>
-  )
+  );
 }
 
 export default Home
