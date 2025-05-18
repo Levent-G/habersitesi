@@ -1,101 +1,60 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+import { country } from "../shared/haberEnums";
+import { HaberContext } from "../context/haberContext";
+import { actionTypes } from "../context/actionTypes";
+import AutoCompleteItem from "./formInput/AutoCompleteItem";
 
-const UlkeSecimiComp = (props) => {
-  const country = [
-    "ae",
-    "ar",
-    "at",
-    "au",
-    "be",
-    "bg",
-    "br",
-    "ca",
-    "ch",
-    "cn",
-    "co",
-    "cu",
-    "cz",
-    "de",
-    "eg",
-    "fr",
-    "gb",
-    "gr",
-    "hk",
-    "hu",
-    "id",
-    "ie",
-    "il",
-    "in",
-    "it",
-    "jp",
-    "kr",
-    "lt",
-    "lv",
-    "ma",
-    "mx",
-    "my",
-    "ng",
-    "nl",
-    "no",
-    "nz",
-    "ph",
-    "pl",
-    "pt",
-    "ro",
-    "rs",
-    "ru",
-    "sa",
-    "se",
-    "sg",
-    "si",
-    "sk",
-    "th",
-    "tr",
-    "tw",
-    "ua",
-    "us",
-    "ve",
-    "za",
-  ];
+const API_KEY = "2749c2e0a88f4967b816131fe4c75132";
 
-  const formattedCountries = country.map((country) => ({
-    value: country,
-    label: country.toUpperCase(), // veya başka bir label formatı kullanabilirsiniz
-  }));
+const UlkeSecimiComp = () => {
+  const { state, reducerDispatch } = useContext(HaberContext);
+
+  const handleHaberService = async (value) => {
+    try {
+      const response = await fetch(
+        `https://newsapi.org/v2/top-headlines?country=${value}&apiKey=${API_KEY}`
+      );
+
+      const data = await response.json();
+
+      if (data.articles) {
+        reducerDispatch({
+          type: actionTypes.SET_NEWS,
+          payload: data.articles,
+        });
+      }
+    } catch (error) {
+      console.error("Haberler alınırken hata oluştu:", error);
+    }
+  };
+
+  const countryCustomChange = (value) => {
+    reducerDispatch({
+      type: actionTypes.SET_COUNTRY_NAME,
+      payload: value,
+    });
+
+    handleHaberService(value);
+  };
 
   return (
-    <div>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "45ch", marginLeft: "auto" },
-          display: "flex",
-          justifyContent: "center",
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            style={{ fontFamily: "Raleway" }}
-            id="outlined-select-currency"
-            value={props.countryName}
-            select
-            label="Hangi Ülkenin Haberini istersiniz"
-            onChange={(e) => props.setCountryName(e.target.value)}
-          >
-            {formattedCountries.map((option, index) => (
-              <MenuItem key={index} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
-      </Box>
-    </div>
+    <Box
+      component="form"
+      sx={{
+        "& .MuiTextField-root": { m: 1, width: "45ch" },
+        display: "flex",
+        justifyContent: "center",
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <AutoCompleteItem
+        value={state?.countryName}
+        onCustomChange={countryCustomChange}
+        item={country}
+      />
+    </Box>
   );
 };
 

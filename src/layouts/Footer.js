@@ -1,11 +1,24 @@
-import React from 'react'
+import React from "react";
+import { Box, Typography } from "@mui/material";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <div className='w-full h-16 bg-[#42A5F5] flex justify-center pt-5  text-white'>
+    <Box
+      component="footer"
+      sx={{
+        width: "100%",
+        height: 64, 
+        bgcolor: "#42A5F5",
+        color: "white",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        pt: 1.25, 
+      }}
+    >
+      <Typography variant="body2" component="p">
         © Copyright 2023 MUSTAFA LEVENT GULSUM
-    </div>
-  )
+      </Typography>
+    </Box>
+  );
 }
-
-export default Footer

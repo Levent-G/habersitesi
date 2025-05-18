@@ -1,8 +1,7 @@
-import { BrowserRouter,Routes,Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Topbar from "./layouts/Topbar";
 import Footer from "./layouts/Footer";
-
 
 function App() {
   return (

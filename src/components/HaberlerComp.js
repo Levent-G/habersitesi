@@ -1,86 +1,130 @@
-import React from "react";
-import { Typography,Box,Grid,Card,CardContent,CardMedia} from '@mui/material'
-import { createTheme } from '@mui/material/styles';
+import React, { useContext } from "react";
+import {
+  Typography,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
+import { HaberContext } from "../context/haberContext";
 
+const HaberlerComp = () => {
+  const { state } = useContext(HaberContext);
+  const { countryName, haberler } = state;
 
-const HaberlerComp = (props) => {
-    const theme = createTheme({
-        typography: {
-          fontFamily: [
-            'Raleway',
-         
-          ].join(','),
-        },
-      });
-  console.log(props.data,"dataa111");
-  return ( 
-    <div>
-   
-        <Box sx={{ flexGrow: 1 }} className=" p-5 ">
-          <div className="flex items-center">
-            <div className="flex-grow border-t-8 border-[#42A5F5]"></div>
-            <Typography theme={theme} variant="h5" className="mx-4 p-5 uppercase">
-              HABERLER -{props.countryName}
-            </Typography>
-            <div className="flex-grow border-t-8 border-l-8 border-[#F57F17]"></div>
-          </div>
-          <Grid container spacing={2}>
-            {props.data?.articles
-              ? props.data?.articles.map((haber, index) => (
-                  <>
-                    <Grid item xs={12} md={6} className="mb-24">
-                      <a href={ haber?.url} className="hover:bg-black">
-                      <Card
-                        sx={{ maxWidth: 545, borderRadius: "16px" }}
-                        className="p-5 hover:opacity-80"
-                      >
-                        <CardMedia
-                          sx={{ height: 240, borderRadius: "16px 16px 0 0" }}
-                          image={haber?.urlToImage !== null ? (haber?.urlToImage ):("https://www.shutterstock.com/image-vector/mavi-modern-son-dakika-haber-260nw-2358979573.jpg")}
-                          title="green iguana"
-                        />
-                        <CardContent>
-                          <Typography
-                            gutterBottom
-                            variant="h4"
-                            component="div"
-                            theme={theme}
-                            className="uppercase"
-                          >
-                              {haber?.author !== null ? (haber?.author):(haber?.source.name)}
-                          </Typography>
-                          <Typography variant="body2" theme={theme}>
-                            {haber?.description !== null ? ( haber?.description):(haber?.title)}
-                           
-                          </Typography>
-                        </CardContent>
-                      
+  return (
+    <Box sx={{ flexGrow: 1, px: 5, pb: 10 }}>
+      {/* ÜST ÇİZGİLER ve BAŞLIK */}
+      <Grid container alignItems="center" spacing={2} sx={{ mb: 5 }}>
+        <Grid item xs={5}>
+          <Box sx={{ borderTop: 8, borderColor: "#42A5F5", width: "100%" }} />
+        </Grid>
+        <Grid item xs={2} textAlign="center">
+          <Typography
+            variant="h5"
+            sx={{
+              textTransform: "uppercase",
+              px: 2,
+              py: 3,
+              whiteSpace: "nowrap",
+            }}
+          >
+            HABERLER - {countryName}
+          </Typography>
+        </Grid>
+        <Grid item xs={5}>
+          <Box
+            sx={{
+              borderTop: 8,
+              borderLeft: 8,
+              borderColor: "#F57F17",
+              width: "100%",
+            }}
+          />
+        </Grid>
+      </Grid>
 
-                        <Typography
-                          className="float-left text-[#F57F17] "
-                          theme={theme}
-                        >
-                           {haber?.publishedAt}
-                        </Typography>
-                        <Typography
-                          theme={theme}
-                          className="float-right text-[#F57F17]"
-                        >
-                           {haber?.source.name}
-                        </Typography>
-                      </Card>
-                      </a>
-                      
-                    </Grid>
-                  </>
-                ))
-              : ""}
-           
+      <Grid container spacing={4}>
+        {haberler.map((haber, index) => (
+          <Grid item xs={12} md={4} key={index} sx={{ display: "flex" }}>
+            <Box
+              display="flex"
+              sx={{ width: "100%" }}
+            >
+              <a
+                href={haber?.url}
+                style={{
+                  textDecoration: "none",
+                  width: "100%",
+                  maxWidth: "545px",
+                }}
+              >
+                <Card
+                  sx={{
+                    borderRadius: "16px",
+                    ":hover": { opacity: 0.8 },
+                    height: "100%", // kart boyunu parent'a göre uzatır
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <CardMedia
+                    sx={{ height: 200, borderRadius: "16px 16px 0 0" }}
+                    image={
+                      haber?.urlToImage
+                        ? haber.urlToImage
+                        : "https://www.shutterstock.com/image-vector/mavi-modern-son-dakika-haber-260nw-2358979573.jpg"
+                    }
+                    title="haber görseli"
+                  />
+                  <CardContent sx={{ height: 160, overflow: "hidden" }}>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      className="uppercase"
+                      sx={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {haber?.author || haber?.source.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {haber?.description || haber?.title}
+                    </Typography>
+                  </CardContent>
+
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    px={2}
+                    pb={2}
+                    color="#F57F17"
+                    fontSize={14}
+                  >
+                    <Typography>{haber?.publishedAt}</Typography>
+                    <Typography>{haber?.source.name}</Typography>
+                  </Box>
+                </Card>
+              </a>
+            </Box>
           </Grid>
-        </Box>
-   
-    </div>
+        ))}
+      </Grid>
+    </Box>
   );
-}
+};
 
-export default HaberlerComp
+export default HaberlerComp;

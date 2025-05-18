@@ -3,22 +3,13 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./index.css";
 
-import thunk from "redux-thunk";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import rootReducer from "./redux/reducers";
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
+import HaberProvider from "./context/haberContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <HaberProvider>
       <App />
-    </Provider>
+    </HaberProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
